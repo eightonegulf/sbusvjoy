@@ -1,0 +1,7 @@
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\bin\Debug\netcoreapp3.1\SBUSReader.deps.json
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\bin\Debug\netcoreapp3.1\SBUSReader.dll
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\bin\Debug\netcoreapp3.1\SBUSReader.pdb
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\obj\Debug\netcoreapp3.1\SBUSReader.AssemblyInfoInputs.cache
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\obj\Debug\netcoreapp3.1\SBUSReader.AssemblyInfo.cs
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\obj\Debug\netcoreapp3.1\SBUSReader.dll
+C:\Users\EightOneGulf\Source\git\sbusvjoy\SBUSReader\obj\Debug\netcoreapp3.1\SBUSReader.pdb
