@@ -26,18 +26,36 @@ namespace SBUSReader
         private Channels channels;
         SerialPort port;
 
-        public event EventHandler<ChannelUpdateReceivedEventArgs> ChannelUpdateReceived;
+        SBUSReadStatus sbusReadStatus = SBUSReadStatus.WaitingForHeader;
+        int sbusReadIndex = 0;
+        byte[] sbusFrame = new byte[24];
+        static readonly UInt32 mask11bit = 0x7ff;
 
-        public SBUSReader(string Port)
+
+        public SBUSReader ()
         {
             channels = new Channels(16);
+        }
 
-            port = new SerialPort(Port, 100000);       
+        public bool Start(string portName)
+        {
+            port = new SerialPort(portName, 100000);
             port.DataBits = 8;
             port.Parity = Parity.Even;
             port.StopBits = StopBits.Two;
             port.DataReceived += Port_DataReceived;
-            port.Open();
+
+            try
+            {
+                port.Open();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+                return false;
+            }
+
+            return port.IsOpen;
         }
 
         ~SBUSReader()
@@ -45,10 +63,7 @@ namespace SBUSReader
             port.Close();
         }
 
-        SBUSReadStatus sbusReadStatus = SBUSReadStatus.WaitingForHeader;
-        int sbusReadIndex = 0;
-        byte[] sbusFrame = new byte[24];
-        static readonly UInt32 mask11bit = 0x7ff;
+
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
@@ -101,13 +116,11 @@ namespace SBUSReader
             OnChannelUpdateReceived(new ChannelUpdateReceivedEventArgs(channels));
         }
 
+
+        public event EventHandler<ChannelUpdateReceivedEventArgs> ChannelUpdateReceived;
         protected virtual void OnChannelUpdateReceived(ChannelUpdateReceivedEventArgs e)
         {
-            EventHandler<ChannelUpdateReceivedEventArgs> handler = ChannelUpdateReceived;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ChannelUpdateReceived?.Invoke(this, e);
         }
 
         private void ReadByte(byte b)

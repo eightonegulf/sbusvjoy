@@ -1,5 +1,4 @@
 C:\Users\EightOneGulf\Source\git\sbusvjoy\VJoyFeeder\bin\Debug\netcoreapp3.1\VJoyFeeder.exe
-C:\Users\EightOneGulf\Source\git\sbusvjoy\VJoyFeeder\bin\Debug\netcoreapp3.1\port.txt
 C:\Users\EightOneGulf\Source\git\sbusvjoy\VJoyFeeder\bin\Debug\netcoreapp3.1\vJoyInterface.dll
 C:\Users\EightOneGulf\Source\git\sbusvjoy\VJoyFeeder\bin\Debug\netcoreapp3.1\VJoyFeeder.deps.json
 C:\Users\EightOneGulf\Source\git\sbusvjoy\VJoyFeeder\bin\Debug\netcoreapp3.1\VJoyFeeder.runtimeconfig.json

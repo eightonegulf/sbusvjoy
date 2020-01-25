@@ -16,9 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="port.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="vJoyInterface.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

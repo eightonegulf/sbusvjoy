@@ -8,7 +8,8 @@ namespace SBUSReader
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            SBUSReader r = new SBUSReader(File.ReadAllLines("port.txt")[0]);
+            SBUSReader r = new SBUSReader();
+            
             Console.ReadLine();
         }
     }

@@ -8,13 +8,13 @@ namespace VJoyFeeder
 {
     class Program
     {
+        static readonly uint id = 1;
+        static readonly int maxValue = 32000;
+
         static vJoy joystick;
-        static uint id = 1;
-        static int minValue = 0; 
-        static int maxValue = 32000;
+        static Stopwatch sw;
         static bool SetupVJoy()
         {
-
             joystick = new vJoy();
             if (!joystick.vJoyEnabled())
             {
@@ -42,7 +42,6 @@ namespace VJoyFeeder
                     return false;
             };
 
-
             if (!joystick.AcquireVJD(id))
             {
                 return false;
@@ -51,25 +50,60 @@ namespace VJoyFeeder
         }
         static void Main(string[] args)
         {
-            SetupVJoy();
-            var r = new SBUSReader.SBUSReader(File.ReadAllLines("port.txt")[0]);
-            
+            if (!SetupVJoy())
+            {
+                Console.Error.WriteLine("Failed to setup VJoy");
+                return;
+            }
+
             sw = Stopwatch.StartNew();
             sw.Start();
 
-            r.ChannelUpdateReceived += R_ChannelUpdateReceived;
-            Console.WriteLine("Running");
-            Console.ReadLine();
 
+            string targetComport = GetLastKnownPort();
+            if(targetComport == null)
+            {
+                targetComport = GetUserInputPort();
+            }
+            
+            var r = new SBUSReader.SBUSReader();
+            r.ChannelUpdateReceived += R_ChannelUpdateReceived;
+            while (!r.Start(targetComport))
+            {
+                targetComport = GetUserInputPort();
+            }
+            Console.WriteLine("Connected with port {0}", targetComport);
+
+            Console.WriteLine("Running");
+            Console.CursorVisible = false;
+            Console.ReadLine();
         }
 
-        static Stopwatch sw;
+        static string GetLastKnownPort()
+        {
+            string r = null;
+            if (File.Exists("port.txt"))
+            {
+                r = File.ReadAllLines("port.txt")[0];
+            }
+            return r;
+        }
+
+        static string GetUserInputPort()
+        {
+            Console.WriteLine("Enter COMPort: ");
+            string r = Console.ReadLine();
+            File.WriteAllText("port.txt", r);
+            return r;
+        }
+
 
         private static void R_ChannelUpdateReceived(object sender, SBUSReader.ChannelUpdateReceivedEventArgs e)
         {
             if (sw.ElapsedMilliseconds > 0)
             {
-                Console.Title = (1000 / (sw.ElapsedMilliseconds )).ToString() + "fps";
+                Console.CursorLeft = 0;
+                Console.Write( (1000 / (sw.ElapsedMilliseconds)).ToString() + "fps   " );
             }
             sw.Restart();
 
